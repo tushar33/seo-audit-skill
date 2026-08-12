@@ -106,15 +106,25 @@ mapping.
 ## SEO-06 — Meta title & description coverage
 **What:** Every indexable page has a unique, descriptive `<title>` and
 `<meta name="description">` — not a generic app-wide default repeated
-everywhere, and not a title template that's technically unique per entity
+everywhere, not a title template that's technically unique per entity
 (e.g. `{name} | {brand}`) but carries zero descriptive/category context
 (role, content type, location) that would help a snippet stand out or
-signal topical relevance.
+signal topical relevance, and not a tag that's simply too thin to be
+descriptive even when it's non-empty and technically unique — e.g. a
+description of only 3-8 words, or a title that's just a bare name/number
+with no other word in it. A present-but-thin value passes a naive
+"is this field empty?" check while still failing the actual intent of the
+category.
 **Why:** Duplicate/missing titles-descriptions read as low-quality/
 boilerplate to search engines and produce poor search-result snippets. A
 title that's unique-by-interpolation-only still under-communicates topic —
 the same class of harm as a duplicate title, just harder to catch by diffing
-alone.
+alone. A thin-but-present value is a third, distinct failure mode from
+either of those: it won't show up in a duplicate-content diff (it may be
+unique per page) and won't necessarily show up as a template-wide pattern
+(it can be a one-off, data-dependent shortfall — e.g. an entity whose
+source description field itself only ever had a few words), so it needs its
+own explicit check rather than being assumed to be caught by the other two.
 **Generic detection:** Sample several distinct entity/content pages and
 diff their rendered `<title>`/description — if they're identical across
 clearly different content, that's the gap. Separately, check whether the
@@ -126,7 +136,15 @@ a description consistently landing well under budget (e.g. 15-20+ chars
 short) across many pages is a symptom worth investigating: check whether
 more than one truncation/formatting step runs on the same string before it
 reaches the page (see the sequential-double-truncation bug signature in
-`/audit-mistakes` if this codebase has one).
+`/audit-mistakes` if this codebase has one). Independently of the
+budget-shortfall check, sample rendered title/description word counts
+directly (not just character totals against the budget) and flag any that
+are thin in absolute terms — roughly under 5-8 words for a description or
+under 2-3 words for a title beyond the entity name itself — since a value
+can clear a lenient char-count check while still reading as too sparse to
+be a genuine descriptive snippet; trace thin hits back to whether the
+*source data* for that entity is itself sparse (a content gap, likely
+recurring across many similar entities) vs. a one-off rendering bug.
 **Discovery hints:** grep the head-management usage for where
 title/description props are set (or not set, falling through to a
 default); grep for every function that truncates/slices a description
