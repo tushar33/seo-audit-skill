@@ -96,6 +96,8 @@ cumulative last-known-state tracking.
   kind of check — this skill only tracks gaps against the checklist, not
   active bugs.
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for ground rules before opening a PR.
+
 ## License
 
 [MIT](LICENSE)
