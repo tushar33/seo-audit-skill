@@ -56,6 +56,12 @@ records a last-known state, but code moves) and reported as `STILL_OPEN`,
 `PARTIALLY_RESOLVED`, `RESOLVED`, or `NOT_APPLICABLE`. The audit changes no
 code — fixes go through explicit approval or your own follow-up process.
 
+Each run also saves its full report — every category's status plus the
+summary table — to `skills/seo-audit/reports/<YYYY-MM-DD>.md` in the
+project being audited, so a given run's complete output is preserved as
+its own shareable file, separate from `project-checklist.md`'s
+cumulative last-known-state tracking.
+
 ## Categories (see `skills/seo-audit/categories.md` for full detail)
 
 | ID | Category |

@@ -74,14 +74,27 @@ End with a summary table (category → status) so coverage is auditable.
 Report `STILL_OPEN` or `NOT_YET_AUDITED` explicitly — silence is not
 evidence of a clean sweep.
 
-### 5. Update `project-checklist.md`
+### 5. Save the report
+Write the full report from step 4 — every audited category's status block
+plus the summary table — to `skills/seo-audit/reports/<YYYY-MM-DD>.md` in
+this project (create the `reports/` directory if it doesn't exist yet). If
+a report already exists for today's date, append a run suffix instead of
+overwriting it (`<YYYY-MM-DD>-2.md`, `-3.md`, ...). Head the file with the
+run's scope (all categories, or the specific IDs requested) and the date.
+This is the durable, shareable record of *this specific run's* full
+output — distinct from `project-checklist.md`, which only tracks the
+cumulative last-known state per category, not a given run's complete
+report text. Do not commit the report automatically; that's the user's
+call like any other file change.
+
+### 6. Update `project-checklist.md`
 After auditing a category — whether the result is a gap, a clean pass, or
 N/A — write (or update) its entry: status, last-checked date, the recipe
 that found it, and the state description. This is what makes the next run
 on this project fast instead of rediscovering everything from scratch. Keep
 entries even when `RESOLVED` — update status/date, never delete.
 
-### 6. Grow the checklist (only when asked)
+### 7. Grow the checklist (only when asked)
 - A new **universal** technical-SEO practice (applies across projects, no
   project-specific paths) → append to `categories.md` following the
   existing format.
