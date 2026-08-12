@@ -95,3 +95,7 @@ cumulative last-known-state tracking.
 - Wrong code already causing bugs (not a missing feature) is a different
   kind of check — this skill only tracks gaps against the checklist, not
   active bugs.
+
+## License
+
+[MIT](LICENSE)
