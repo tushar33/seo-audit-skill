@@ -77,6 +77,8 @@ code — fixes go through explicit approval or your own follow-up process.
 | SEO-15 | JS-render / prerender coverage for crawlers |
 | SEO-16 | Open Graph / Twitter Card social meta tags |
 | SEO-17 | Per-page `<meta name="robots">` directives |
+| SEO-18 | Viewport meta tag correctness |
+| SEO-19 | Resource hints for LCP-critical origins (preconnect/dns-prefetch/preload) |
 
 ## Growing this skill
 

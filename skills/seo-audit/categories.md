@@ -381,6 +381,58 @@ identically (rare).
 
 ---
 
+## SEO-18 — Viewport meta tag correctness
+**What:** `<meta name="viewport" content="width=device-width, initial-scale=1">`
+(or equivalent) present in the document head — not missing, not fixed to a
+non-responsive pixel width, and not disabling user zoom
+(`user-scalable=no`, or `maximum-scale=1` used to the same effect).
+**Why:** Google indexes and ranks primarily off the mobile rendering of a
+page (mobile-first indexing). A missing or misconfigured viewport tag makes
+the page render as a zoomed-out desktop layout on mobile, which can trip a
+direct "not mobile-friendly" flag and hurts mobile usability signals more
+broadly. Disabling zoom is also a WCAG 1.4.4 (reflow/zoom) accessibility
+failure, not just an SEO one.
+**Generic detection:** Fetch the rendered `<head>` for a sample of pages and
+confirm a viewport meta tag is present, uses `width=device-width` (not a
+fixed pixel value), and doesn't hard-disable zoom.
+**Discovery hints:** grep the root HTML template — `public/index.html` for
+CRA/Vite, `app/layout.tsx`/`pages/_document.tsx` for Next.js — for
+`name="viewport"`. This tag is almost always static/site-wide rather than
+per-route, so one check usually covers the whole app unless a per-page
+override exists.
+**N/A when:** the site is intentionally non-responsive or print-only
+(rare).
+
+---
+
+## SEO-19 — Resource hints for LCP-critical origins (preconnect/dns-prefetch/preload)
+**What:** Third-party origins the page depends on early in the render path
+— image/asset CDN, webfont host, primary API host — are hinted via
+`<link rel="preconnect">` or `dns-prefetch` in the document head, and the
+actual LCP candidate asset (or a render-blocking critical webfont) is
+hinted via `<link rel="preload">` where applicable.
+**Why:** Without a preconnect hint, the browser only begins DNS + TCP + TLS
+setup for a third-party origin once it discovers a resource from it mid-
+parse — adding avoidable round trips squarely on the path to the Largest
+Contentful Paint. This overlaps with SEO-13 (Core Web Vitals) but merits
+its own explicit check: it's commonly skipped even after image-sizing and
+lazy-load work (SEO-03, SEO-13) is otherwise done, since it lives in the
+root HTML template rather than the component that actually renders the LCP
+image.
+**Generic detection:** Identify the LCP candidate's origin (usually the
+image/asset CDN) and any third-party font host, then check the root HTML
+template for matching `preconnect`/`dns-prefetch` hints; separately check
+whether the LCP asset itself or a critical webfont has a
+`<link rel="preload">`.
+**Discovery hints:** grep the root HTML template for `rel="preconnect"`,
+`rel="dns-prefetch"`, `rel="preload"`; cross-reference the hinted origins
+against the CDN base URL used by the shared image component (see SEO-03)
+and any `@font-face`/font-loading configuration.
+**N/A when:** all critical assets are already same-origin (nothing
+third-party to hint), or the page has no asset on the LCP path (rare).
+
+---
+
 ## Growing this file
 Add a new category here **only if it's a universal technical-SEO practice**
 applicable across projects/stacks — no project-specific paths, no
