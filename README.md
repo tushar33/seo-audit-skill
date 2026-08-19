@@ -14,7 +14,19 @@ check and *why*, with discovery hints for finding the relevant
 implementation across common stacks (React/CRA, Next.js, Vite, plain
 server-rendered apps, etc.), not hardcoded paths.
 
-## Install into a project
+## Quick install (one line)
+
+From your project's repo root:
+
+```bash
+curl -sL https://raw.githubusercontent.com/tushar33/seo-audit-skill/main/install.sh | bash
+```
+
+This copies `skills/seo-audit/{seo-audit.md,categories.md}` into your
+project and symlinks the skill into `.claude/commands/seo-audit.md` so
+Claude Code picks it up as `/seo-audit`.
+
+## Manual install
 
 1. Copy `skills/seo-audit/categories.md` and `skills/seo-audit/seo-audit.md`
    into that project's `skills/seo-audit/` directory, unchanged.
