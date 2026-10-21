@@ -61,9 +61,13 @@ For each category output:
 - **Category ID + title**
 - **Status:** `STILL_OPEN` (gap confirmed), `RESOLVED` (fixed since last
   checked — say what changed and when), `PARTIALLY_RESOLVED` (some but not
-  all named locations fixed — list which remain), or `NOT_APPLICABLE`
+  all named locations fixed — list which remain), `NOT_APPLICABLE`
   (category doesn't apply to this project — say why, per `categories.md`'s
-  "N/A when" note)
+  "N/A when" note), `PASS` (checked and no gap found — including a
+  clean first-run check, which has no prior gap to resolve so `RESOLVED`
+  doesn't apply), or `NOT_YET_AUDITED` (this run didn't check this category
+  at all, e.g. a scoped run against specific categories only — distinct
+  from `PASS`, which means it WAS checked and found clean)
 - **Where it's missing:** exact file(s)/route(s)
 - **Why it matters:** the SEO/Core-Web-Vitals consequence, from
   `categories.md`
